@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<% if !current_user %>
+  <%= link_to 'Sign In', new_user_session_path, id: 'sign_in' %>
+<% else %>
+  <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, id: 'sign_out' %>
+<% end %>
+
+<h1>Top 5 Hotels</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Number</th>
+      <th>Rating</th>
+      <th>Added by</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @hotels.each do |hotel| %>
+      <tr>
+        <td><%= hotel.name %></td>
+        <td><%= hotel.price %></td>
+        <td><%= hotel.number %></td>
+        <td><%= hotel.rating %></td>
+        <td><%= hotel.user.try(:email) %></td>
+
+        <% if current_user %>
+          <td><%= link_to 'Show', hotel %></td>
+          <td><%= link_to 'Edit', edit_hotel_path(hotel) %></td>
+          <td><%= link_to 'Destroy', hotel, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+
+<%= link_to 'New Hotel', new_hotel_path %>
